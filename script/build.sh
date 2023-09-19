@@ -24,6 +24,7 @@ for pkgbase in *; do
   cd $aur_git_path/$pkgbase
   _pkgrel=`sed -n '/^pkgrel=/{s/pkgrel=\([0-9]*\).*/\1/p}' PKGBUILD`
   cp -ar $aur_path/$pkgbase/* $aur_git_path/$pkgbase
+  sed -i "s/^pkgrel=\([0-9]\+\)/pkgrel=${_pkgrel}/g" PKGBUILD
   updpkgsums
   makepkg -s --noconfirm
   makepkg --printsrcinfo > .SRCINFO
