@@ -1,0 +1,32 @@
+name: AUR AUTO PUSH
+
+on:
+  schedule:
+    - cron:  '0 16 * * *'
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: |
+        docker build -t aurpush:latest .
+
+    - name: Start Docker container
+      run: |
+        if [ "${{ github.ref_name }}" == "master" ]; then AUR_PUSH_FLAG=true; else AUR_PUSH_FLAG=false; fi
+        docker run -e AUR_PUSH=${AUR_PUSH_FLAG} -e COMMIT_MESSAGE="$(git log -1 --pretty=format:'%s')" \
+        -e COMMIT_EMAIL="$(git log -1 --pretty=format:'%ae')" -e SSH_PRIVATE_KEY="${{ secrets.AUR_SSH_PRIVATE_KEY }}" \
+        -e COMMIT_USERNAME="$(git log -1 --pretty=format:'%an')" aurpush:latest
