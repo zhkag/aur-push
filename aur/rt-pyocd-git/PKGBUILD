@@ -10,7 +10,7 @@ url="https://github.com/RT-Thread-Studio/sdk-debugger-pyocd"
 pkggitname="sdk-debugger-pyocd"
 
 source=(${pkggitname}::git+https://github.com/RT-Thread-Studio/${pkggitname}.git)
-sha512sums=(SKIP)
+sha512sums=('SKIP')
 
 _root="/opt/rt-thread"
 _tools_root="${_root}/tools"

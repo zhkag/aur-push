@@ -44,7 +44,7 @@ for pkgbase in *; do
     git diff-index --quiet HEAD || git commit -m "$aur_commit_message"
     if [ $AUR_PUSH==true ]
     then
-      echo "git push origin master"
+      git push origin master
     else
       echo "Only push when submitting the master branch!"
     fi

@@ -10,7 +10,8 @@ url="https://github.com/RT-Thread/env"
 
 source=(env::git+https://github.com/RT-Thread/env.git
 	packages::git+https://github.com/RT-Thread/packages.git)
-sha512sums=(SKIP SKIP)
+sha512sums=('SKIP'
+            'SKIP')
 
 _env_root="/opt/rt-thread/tools/env"
 _env_cmd_root="${_env_root}/tools/scripts"
