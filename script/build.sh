@@ -40,7 +40,7 @@ for pkgbase in *; do
       _pkgrel=$((_pkgrel + 1))
       sed -i "s/^pkgrel=\([0-9]\+\)/pkgrel=${_pkgrel}/g" PKGBUILD
     fi
-
+    makepkg --printsrcinfo > .SRCINFO
     git add --all
     git diff-index --quiet HEAD || git commit -m "$aur_commit_message"
     if [ $AUR_PUSH==true ]
