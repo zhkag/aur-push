@@ -33,9 +33,9 @@ for pkgbase in *; do
   makepkg -s --noconfirm
   makepkg --printsrcinfo > .SRCINFO
 
+  aur_commit_message=$COMMIT_MESSAGE
   if [ -n "$(git diff)" ];
   then
-    aur_commit_message=$COMMIT_MESSAGE
     if [ -n "$(git diff | grep -E '\-pkgver|\+pkgver')" ];
     then
       _pkgname=`sed -n '/^pkgname=/p' PKGBUILD | sed 's/^pkgname=//'| sed 's/\"//g'`
@@ -45,13 +45,13 @@ for pkgbase in *; do
       sed -i "s/^pkgrel=\([0-9]\+\)/pkgrel=${_pkgrel}/g" PKGBUILD
     fi
     makepkg --printsrcinfo > .SRCINFO
-    git add --all
-    git diff-index --quiet HEAD || git commit -m "$aur_commit_message"
-    if [ $AUR_PUSH==true ]
-    then
-      git push origin master
-    else
-      echo "Only push when submitting the master branch!"
-    fi
+  fi
+  git add --all
+  git diff-index --quiet HEAD || git commit -m "$aur_commit_message"
+  if [ $AUR_PUSH==true ]
+  then
+    git push origin master
+  else
+    echo "Only push when submitting the master branch!"
   fi
 done
