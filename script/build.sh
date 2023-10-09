@@ -22,7 +22,10 @@ cd $aur_path
 for pkgbase in *; do
   git clone -v "ssh://aur@aur.archlinux.org/${pkgbase}.git" $aur_git_path/$pkgbase
   cd $aur_git_path/$pkgbase
-  _pkgrel=`sed -n '/^pkgrel=/{s/pkgrel=\([0-9]*\).*/\1/p}' PKGBUILD`
+  _pkgrel=1
+  if [ -e "PKGBUILD" ]; then
+    _pkgrel=`sed -n '/^pkgrel=/{s/pkgrel=\([0-9]*\).*/\1/p}' PKGBUILD`
+  fi
   cp -ar $aur_path/$pkgbase/* $aur_git_path/$pkgbase
   sed -i "s/^pkgrel=\([0-9]\+\)/pkgrel=${_pkgrel}/g" PKGBUILD
   updpkgsums
