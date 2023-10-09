@@ -27,6 +27,7 @@ for pkgbase in *; do
     _pkgrel=`sed -n '/^pkgrel=/{s/pkgrel=\([0-9]*\).*/\1/p}' PKGBUILD`
   fi
   cp -ar $aur_path/$pkgbase/* $aur_git_path/$pkgbase
+  cp -ar $aur_path/$pkgbase/.* $aur_git_path/$pkgbase
   sed -i "s/^pkgrel=\([0-9]\+\)/pkgrel=${_pkgrel}/g" PKGBUILD
   updpkgsums
   makepkg -s --noconfirm
